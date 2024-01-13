@@ -8,19 +8,9 @@
 
 @using (Html.BeginForm(FormMethod.Post, new { id = "frmEdit", @autocomplete = "off", @data_parsley_validate = "" }))
 {
+	@await Html.PartialAsync("_PartialSave", Model)
 	<div>
 		@Html.HiddenFor(model => model.Persona.Id)
-		<div>
-
-		@Html.LabelFor(model => model.Persona.Name, "名稱")
-			@Html.TextBoxFor(model => model.Persona.Name, new { data_parsley_required = "" })
-		</div>
-		<div>
-			@Html.LabelFor(model => model.Persona.Age, "年齡")
-			@Html.TextBoxFor(model => model.Persona.Age, new { type = "number", data_parsley_required = "", data_parsley_type = "digits" })
-		</div>
-	</div>
-	<div>
 		@* <button type="button" class="btn btn-primary" onclick="sendSave();">確認送出</button> *@
 		<button type="submit" class="btn btn-primary">確認送出</button>
 

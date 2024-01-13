@@ -6,14 +6,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TESTMVCCORE.Models.DB
 {
-    public partial class Persona
+    public partial class PersonaDetail
     {
         [Key]
         public int Id { get; set; }
-        [StringLength(50)]
-        public string Name { get; set; } = null!;
-        public int Age { get; set; }
-        [StringLength(5)]
-        public string? Type { get; set; }
+        public int PersonaId { get; set; }
+        [StringLength(10)]
+        public string Comment { get; set; } = null!;
     }
 }

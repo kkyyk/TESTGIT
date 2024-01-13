@@ -12,25 +12,25 @@ namespace TESTMVCCORE.Controllers
 	public class HomeController : Controller
 	{
 		private readonly ILogger<HomeController> _logger;
-		private readonly AllCommonService _allCommonService;
+		private readonly PersonaService _personaService;
 
-		public HomeController(AllCommonService allCommonService,
+		public HomeController(PersonaService personaService,
 			ILogger<HomeController> logger)
 		{
-			_allCommonService = allCommonService;
+			_personaService = personaService;
 			_logger = logger;
 		}
 
 		public IActionResult Index()
 		{
-			var list = _allCommonService.Lookup<Persona>().ToList();
+			var list = _personaService.Lookup<Persona>().ToList();
 			return View();
 		}
 
 		public IActionResult List()
 		{
 			Model_List model = new Model_List();
-			model.PersonaList = _allCommonService.Lookup<Persona>().ToList();
+			model.PersonaList = _personaService.Lookup<Persona>().ToList();
 			return View(model);
 		}
 
@@ -38,13 +38,14 @@ namespace TESTMVCCORE.Controllers
 		public IActionResult Add()
 		{
 			Model_Add model = new Model_Add();
+			_personaService.GetDDL(ref model);
 			return View(model);
 		}
 
 		[HttpPost]
 		public IActionResult Add(Model_Add model)
 		{
-			string result = _allCommonService.Insert(model.Persona);
+			string result = _personaService.Insert(model.Persona);
 			return RedirectToAction("List");
 		}
 		#endregion
@@ -53,18 +54,19 @@ namespace TESTMVCCORE.Controllers
 		public IActionResult Edit(int Id)
 		{
 			Model_Add model = new Model_Add();
-			model.Persona = _allCommonService.Find<Persona>(Id);
+			model.Persona = _personaService.Find<Persona>(Id);
 			if(model.Persona == null)
 			{
 				return RedirectToAction("List");
 			}
-			return View(model);
+            _personaService.GetDDL(ref model);
+            return View(model);
 		}
 
 		[HttpPost]
 		public IActionResult Edit(Model_Add model)
 		{
-			string result = _allCommonService.Update(model.Persona);
+			string result = _personaService.Update(model.Persona);
 			return RedirectToAction("List");
 		}
 
@@ -74,10 +76,10 @@ namespace TESTMVCCORE.Controllers
 		{
 			string result = "";
 			//要刪除的Persona
-			var Persona = _allCommonService.Find<Persona>(Id);
+			var Persona = _personaService.Find<Persona>(Id);
 			if (Persona != null)
 			{
-				result = _allCommonService.Delete<Persona>(Persona);
+				result = _personaService.Delete<Persona>(Persona);
 			}
 			return RedirectToAction("List");
 		}
