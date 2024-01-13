@@ -7,3 +7,24 @@ CREATE TABLE [dbo].[Persona] (
 
 --Age型態轉成INT
 ALTER TABLE [dbo].[Persona] ALTER COLUMN [Age] INT NOT NULL;
+
+
+ALTER TABLE [dbo].[Persona] ADD  [Type] NCHAR(5) NULL;
+
+CREATE TABLE [dbo].[PersonaDetail] (
+    [Id]   INT           NOT NULL IDENTITY,
+    [PersonaId] INT NOT NULL,
+    [Comment] NVARCHAR(10) NOT NULL, 
+    PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+
+CREATE TABLE [dbo].[Type] (
+    [Id]   INT     NOT NULL IDENTITY,
+    [Type] NCHAR(5) NOT NULL,
+    [TypeName] NVARCHAR(10) NOT NULL, 
+    PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+
+INSERT INTO [dbo].[Type] ([Type], [TypeName]) VALUES ('A', '進攻型');
+INSERT INTO [dbo].[Type] ([Type], [TypeName]) VALUES ('D', '防守型');
+INSERT INTO [dbo].[Type] ([Type], [TypeName]) VALUES ('P', '全能型');
