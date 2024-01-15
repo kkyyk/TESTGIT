@@ -23,11 +23,17 @@ namespace TESTMVCCORE.Service
 		/// <param name="model"></param>
 		public void GetDDL(ref Model_Add model)
 		{
-            model.ddl_Type = _dbContext.Type.Select(x => new SelectListItem
+			model.ddl_Type.Add(new SelectListItem
 			{
-                Text = x.Type1,
-                Value = x.Type1
-            }).ToList();
+				Text = "請選擇",
+				Value = ""
+			});
+			model.ddl_Type.AddRange(_dbContext.Type.Select(x => new SelectListItem
+			{
+				Text = x.TypeName,
+				Value = x.Type1
+			}).ToList());
+
         }
 
 	}
