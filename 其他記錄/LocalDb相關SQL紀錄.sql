@@ -28,3 +28,9 @@ CREATE TABLE [dbo].[Type] (
 INSERT INTO [dbo].[Type] ([Type], [TypeName]) VALUES ('A', '進攻型');
 INSERT INTO [dbo].[Type] ([Type], [TypeName]) VALUES ('D', '防守型');
 INSERT INTO [dbo].[Type] ([Type], [TypeName]) VALUES ('P', '全能型');
+
+INSERT INTO [dbo].[Type] ([Type], [TypeName]) VALUES ('S', N'輔助型');
+
+UPDATE [dbo].[Type] SET [TypeName] = N'進攻型' WHERE [Type] = 'A'
+UPDATE [dbo].[Type] SET [TypeName] = N'防守型' WHERE [Type] = 'D'
+UPDATE [dbo].[Type] SET [TypeName] = N'全能型' WHERE [Type] = 'P'
