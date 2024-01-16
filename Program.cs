@@ -11,8 +11,9 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<DBContext>(options =>
 	options.UseSqlServer(connectionString));
 
-// Add services to the container.
-builder.Services.AddControllersWithViews();
+// Add services to the container.  
+//要即時修改cshtml要使用AddRazorRuntimeCompilation
+builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
 builder.Services.AddScoped<PersonaService>();
 

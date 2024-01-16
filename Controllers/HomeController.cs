@@ -4,6 +4,7 @@ using System.Diagnostics;
 using TESTMVCCORE.Models;
 using TESTMVCCORE.Models.DB;
 using TESTMVCCORE.Models.Home;
+using TESTMVCCORE.Models.Result;
 using TESTMVCCORE.Service;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
@@ -42,12 +43,19 @@ namespace TESTMVCCORE.Controllers
 			return View(model);
 		}
 
+		//[HttpPost]
+		//public IActionResult Add(Model_Add model)
+		//{
+		//	//string result = _personaService.Insert(model.Persona);
+		//	string result = _personaService.AddPersona(model);
+		//	return RedirectToAction("List");
+		//}
+
 		[HttpPost]
 		public IActionResult Add(Model_Add model)
 		{
-			//string result = _personaService.Insert(model.Persona);
 			string result = _personaService.AddPersona(model);
-			return RedirectToAction("List");
+			return Json(new BaseResult(result));
 		}
 		#endregion
 
@@ -65,21 +73,35 @@ namespace TESTMVCCORE.Controllers
 			return View(model);
 		}
 
+		//[HttpPost]
+		//public IActionResult Edit(Model_Add model)
+		//{
+		//	//string result = _personaService.Update(model.Persona);
+		//	string result = _personaService.EditPersona(model);
+		//	return RedirectToAction("List");
+		//}
+
 		[HttpPost]
 		public IActionResult Edit(Model_Add model)
 		{
-			//string result = _personaService.Update(model.Persona);
 			string result = _personaService.EditPersona(model);
-			return RedirectToAction("List");
+			return Json(new BaseResult(result));
 		}
 
 		#endregion
 		#region 刪除
+		//public IActionResult Delete(int Id)
+		//{
+		//	string result = "";
+		//	result = _personaService.DeletePersona(Id);
+		//	return RedirectToAction("List");
+		//}
+		[HttpPost]
 		public IActionResult Delete(int Id)
 		{
 			string result = "";
 			result = _personaService.DeletePersona(Id);
-			return RedirectToAction("List");
+			return Json(new BaseResult(result));
 		}
 		#endregion
 

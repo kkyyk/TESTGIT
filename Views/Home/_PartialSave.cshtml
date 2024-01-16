@@ -4,7 +4,7 @@
 <script id="tmpl_PersonaDetail" type="text/x-jquery-tmpl">
 	<tr class="tmpl_PersonaDetail-container">
 		<td>
-			<input type="text"  name="PersonaDetailList[].Comment" data-parsley-required="">
+			<input type="text"  name="PersonaDetailList[].Comment" data-parsley-required="" data-parsley-length="[0, 10]">
 		</td>
 		<td>
 			<button type="button" class="btn btn-danger" onclick="removeDetail(this)">刪除</button>
@@ -51,15 +51,36 @@
 		});
 	}
 
+	function getPersonaFormData() {
+		let formData = new FormData();
+		//Persona
+		if ($("#Persona_Id").length > 0)
+			formData.append("Persona.Id", $("#Persona_Id").val());
+		formData.append("Persona.Name", $("#Persona_Name").val());
+		formData.append("Persona.Age", $("#Persona_Age").val());
+		formData.append("Persona.Type", $("#Persona_Type").val());
+
+		//PersonaDetail
+		let PersonaDetailList = $("#PersonaDetail-container .tmpl_PersonaDetail-container");
+		PersonaDetailList.each(function (index, element) {
+			if ($(element).find('input[name$="Id"]').length > 0)
+				formData.append("PersonaDetailList[" + index + "].Id", $(element).find('input[name$="Id"]').val());
+			formData.append("PersonaDetailList[" + index + "].Comment", $(element).find('input[name$="Comment"]').val());
+		});
+		return formData;
+
+
+	}
+
 </script>
 <div>
 	<div>
 		@Html.LabelFor(model => model.Persona.Name, "名稱")
-		@Html.TextBoxFor(model => model.Persona.Name, new { data_parsley_required = "" })
+		@Html.TextBoxFor(model => model.Persona.Name, new { data_parsley_required = "", data_parsley_length = "[0, 10]" })
 	</div>
 	<div>
 		@Html.LabelFor(model => model.Persona.Age, "年齡")
-		@Html.TextBoxFor(model => model.Persona.Age, new { type = "number", data_parsley_required = "", data_parsley_type = "digits" })
+		@Html.TextBoxFor(model => model.Persona.Age, new { type = "number", data_parsley_required = "", data_parsley_type = "digits",min="0" })
 	</div>
 	<div>
 		@Html.LabelFor(model => model.Persona.Type, "類型")
@@ -87,7 +108,7 @@
 							<tr class="tmpl_PersonaDetail-container">
 								<td>
 									@Html.HiddenFor(model => model.PersonaDetailList[i].Id)
-									@Html.TextBoxFor(model => model.PersonaDetailList[i].Comment, new { data_parsley_required = "" })
+									@Html.TextBoxFor(model => model.PersonaDetailList[i].Comment, new { data_parsley_required = "", data_parsley_length = "[0, 10]" })
 								</td>
 								<td>
 									<button type="button" class="btn btn-danger" onclick="removeDetail(this)">刪除</button>
