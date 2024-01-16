@@ -29,6 +29,15 @@ namespace TESTMVCCORE.Models.DB
                 entity.Property(e => e.Type).IsFixedLength();
             });
 
+            modelBuilder.Entity<PersonaDetail>(entity =>
+            {
+                entity.HasOne(d => d.Persona)
+                    .WithMany(p => p.PersonaDetail)
+                    .HasForeignKey(d => d.PersonaId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_PersonaDetail_Persona");
+            });
+
             modelBuilder.Entity<Persona_>(entity =>
             {
                 entity.Property(e => e.Id).ValueGeneratedNever();

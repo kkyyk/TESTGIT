@@ -1,6 +1,57 @@
 ﻿@model TESTMVCCORE.Models.Home.Model_Add
 
 
+<script id="tmpl_PersonaDetail" type="text/x-jquery-tmpl">
+	<tr class="tmpl_PersonaDetail-container">
+		<td>
+			<input type="text"  name="PersonaDetailList[].Comment" data-parsley-required="">
+		</td>
+		<td>
+			<button type="button" class="btn btn-danger" onclick="removeDetail(this)">刪除</button>
+		</td>
+	</tr>
+</script>
+<script>
+
+	//新增PersonaDetail
+	function addDetail() {
+		//取得PersonaDetail的template
+		var template = $("#tmpl_PersonaDetail").html();
+		//將PersonaDetail的template加入到PersonaDetail-container
+		$("#PersonaDetail-container").append(template);
+		// $("#PersonaDetail-container").append(template);
+
+		resetPersonaDetail();
+	}
+
+	//刪除PersonaDetail
+	function removeDetail(obj) {
+		//取得PersonaDetail的container
+		let container = $(obj).parents('.tmpl_PersonaDetail-container');
+		//刪除PersonaDetail的container
+		container.remove();
+
+		resetPersonaDetail();
+	}
+
+	//重新定義PersonaDetail的屬性
+	function resetPersonaDetail() {
+		//取得PersonaDetail的container
+		let DetailList = $("#PersonaDetail-container .tmpl_PersonaDetail-container");
+		//重新定義PersonaDetail的屬性
+		DetailList.each(function (index, element) {
+			//取得PersonaDetail的Id
+			let Id = $(element).find('input[name$="Id"]');
+			//重新定義Id的屬性
+			Id.attr('name', 'PersonaDetailList[' + index + '].Id');
+			//取得PersonaDetail的Comment
+			let Comment = $(element).find('input[name$="Comment"]');
+			//重新定義Comment的屬性
+			Comment.attr('name', 'PersonaDetailList[' + index + '].Comment');
+		});
+	}
+
+</script>
 <div>
 	<div>
 		@Html.LabelFor(model => model.Persona.Name, "名稱")
@@ -13,5 +64,41 @@
 	<div>
 		@Html.LabelFor(model => model.Persona.Type, "類型")
 		@Html.DropDownListFor(model => model.Persona.Type, Model.ddl_Type, new { data_parsley_required = "" })
+	</div>
+	<div>
+		@Html.Label("", "其他說明列表")
+		@* PersonaDetail列表 *@
+		@* 新增按鈕 *@
+		<button type="button" class="btn btn-primary" id="btn_AddPersonaDetail" onclick="addDetail()">新增</button>
+		<div>
+			<table>
+				<thead>
+					<tr>
+						<th>說明</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+				<tbody id="PersonaDetail-container">
+					@* 這裡是用來顯示PersonaDetail列表的地方 *@
+					@if (Model.PersonaDetailList != null && Model.PersonaDetailList.Count() > 0)
+					{
+						for (int i = 0; i < Model.PersonaDetailList.Count(); i++)
+						{
+							<tr class="tmpl_PersonaDetail-container">
+								<td>
+									@Html.HiddenFor(model => model.PersonaDetailList[i].Id)
+									@Html.TextBoxFor(model => model.PersonaDetailList[i].Comment, new { data_parsley_required = "" })
+								</td>
+								<td>
+									<button type="button" class="btn btn-danger" onclick="removeDetail(this)">刪除</button>
+								</td>
+							</tr>
+						}
+					}
+				</tbody>
+			</table>
+
+
+		</div>
 	</div>
 </div>

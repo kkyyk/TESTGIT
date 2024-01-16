@@ -1,4 +1,5 @@
 ﻿using TESTMVCCORE.Models.DB;
+using TESTMVCCORE.Models.Extend;
 
 namespace TESTMVCCORE.Models.Home
 {
@@ -6,8 +7,10 @@ namespace TESTMVCCORE.Models.Home
 	{
 		public Model_List()
 		{
-			PersonaList = new List<Persona>();
+			PersonaList = new List<PersonaExtend>();
 		}
-		public List<Persona>? PersonaList { get; set; }
+
+		public List<PersonaExtend>? PersonaList { get; set; }
+
 	}
 }

@@ -299,6 +299,32 @@ namespace TESTMVCCORE.Service.Base
 		}
 
 		/// <summary>
+		/// 刪除資料(多筆)
+		/// </summary>
+		/// <typeparam name="T">方法型別</typeparam>
+		/// <param name="entities">類別</param>
+		/// <returns></returns>
+		public  string DeleteRange<T> (IEnumerable<T> entities) where T : class
+		{
+			string result = "";
+			try
+			{
+				_context.RemoveRange(entities);
+				_context.SaveChanges();
+
+			}
+			catch (Exception ex)
+			{
+				foreach (var entity in entities)
+				{
+					_context.Entry<T>(entity).State = EntityState.Detached;
+				}
+				throw;
+			}
+			return result;
+		}
+
+		/// <summary>
 		/// 刪除資料
 		/// </summary>
 		/// <typeparam name="T">方法型別</typeparam>

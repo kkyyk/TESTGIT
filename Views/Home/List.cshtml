@@ -4,7 +4,7 @@
 }
 
 
-<div>
+@* <div>
 	<h1>列表</h1>
 	<a class="btn btn-primary" href="@Url.Action("Add")">新增</a>
 	<table>
@@ -27,6 +27,41 @@
 					<td>
 						<a class="btn btn-warning" href="@Url.Action("Edit", new { id=item.Id })">編輯</a>
 						<a class="btn btn-danger" href="@Url.Action("Delete", new { id=item.Id })">刪除</a>
+					</td>
+				</tr>
+			}
+		}
+		else
+		{
+			<tr>
+				<td colspan="3">沒有資料</td>
+			</tr>
+		}
+	</table>
+</div> *@
+<div>
+	<h1>列表</h1>
+	<a class="btn btn-primary" href="@Url.Action("Add")">新增</a>
+	<table>
+		<tr>
+			<th>編號</th>
+			<th>姓名</th>
+			<th>年齡</th>
+			<th>功能表</th>
+		</tr>
+		@if (Model.PersonaList != null && Model.PersonaList.Count() > 0)
+		{
+			int row = 0;
+			foreach (var item in Model.PersonaList)
+			{
+				//列表顯示
+				<tr>
+					<td>@(++row)</td>
+					<td>@item.Persona.Name</td>
+					<td>@item.Persona.Age</td>
+					<td>
+						<a class="btn btn-warning" href="@Url.Action("Edit", new { id=item.Persona.Id })">編輯</a>
+						<a class="btn btn-danger" href="@Url.Action("Delete", new { id=item.Persona.Id })">刪除</a>
 					</td>
 					@* <td>@item.Age</td> *@
 				</tr>
