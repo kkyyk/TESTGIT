@@ -29,6 +29,32 @@
 }
 
 <div>
+	<h1>查詢</h1>
+	@using (Html.BeginForm(FormMethod.Post, new { id = "frmSearch", @autocomplete = "off", @data_parsley_validate = "" }))
+	{
+		<div>
+			<label>姓名</label>
+			@* <input type="text" name="Name" value="@Model.NameKeyword" /> *@
+			@Html.TextBoxFor(m => m.QueryParams.NameKeyword, new { @class = "" })
+		</div>
+		<div>
+			<label>年齡</label>
+			@* <input type="text" name="Age" value="@Model.Age" /> *@
+			@Html.TextBoxFor(m => m.QueryParams.Age, new { @class = "", min = "0", type = "number" })
+			@Html.DropDownListFor(m => m.QueryParams.NumType, Model.ddl_SearchNumberType, new { @class = "" })
+		</div>
+		<div>
+			<label>種類</label>
+			@Html.DropDownListFor(m => m.QueryParams.Type, Model.ddl_SearchType, new { @class = "" })
+		</div>
+		<div>
+			<button type="submit" class="btn btn-primary">查詢</button>
+		</div>
+	}
+
+</div>
+
+<div>
 	<h1>列表</h1>
 	<a class="btn btn-primary" href="@Url.Action("Add")">新增</a>
 	<table>

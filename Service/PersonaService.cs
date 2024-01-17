@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using TESTMVCCORE.Models.DB;
 using TESTMVCCORE.Models.Extend;
 using TESTMVCCORE.Models.Home;
+using TESTMVCCORE.Models.QueryParams;
 using TESTMVCCORE.Service.Base;
 
 namespace TESTMVCCORE.Service
@@ -19,11 +20,43 @@ namespace TESTMVCCORE.Service
 			_conf = configuration;
 		}
 
+		public void GetListDDL(ref Model_List model)
+		{
+			//數字類型
+			model.ddl_SearchNumberType.Add(new SelectListItem
+			{
+				Text = "請選擇",
+				Value = ""
+			});
+			model.ddl_SearchNumberType.Add(new SelectListItem
+			{
+				Text = "小於",
+				Value = "0"
+			});
+			model.ddl_SearchNumberType.Add(new SelectListItem
+			{
+				Text = "大於",
+				Value = "1"
+			});
+
+			//種類
+			model.ddl_SearchType.Add(new SelectListItem
+			{
+				Text = "請選擇",
+				Value = ""
+			});
+			model.ddl_SearchType.AddRange(_dbContext.Type.Select(x => new SelectListItem
+			{
+				Text = x.TypeName,
+				Value = x.Type1
+			}).ToList());
+		}
+
 		/// <summary>
-		/// 取下拉選單
+		/// 取下拉選單(新增儲存用)
 		/// </summary>
 		/// <param name="model"></param>
-		public void GetDDL(ref Model_Add model)
+		public void GetAddDDL(ref Model_Add model)
 		{
 			model.ddl_Type.Add(new SelectListItem
 			{
@@ -42,7 +75,7 @@ namespace TESTMVCCORE.Service
 		/// 列表
 		/// </summary>
 		/// <returns></returns>
-		public IQueryable<PersonaExtend> Query()
+		public IQueryable<PersonaExtend> Query(Model_List_QueryParams? model = null)
 		{
 			try
 			{
@@ -52,6 +85,31 @@ namespace TESTMVCCORE.Service
 														  Persona = Persona,
 														  PersonaDetailList = _context.PersonaDetail.Where(x => x.PersonaId == Persona.Id).ToList()
 													  });
+
+				#region 搜尋
+				if (model != null)
+				{
+					if (!string.IsNullOrEmpty(model.NameKeyword))
+					{
+						dataList = dataList.Where(x => x.Persona.Name.Contains(model.NameKeyword));
+					}
+					if (model.Age.HasValue)
+					{
+						if (model.NumType == "0")
+						{
+							dataList = dataList.Where(x => x.Persona.Age <= model.Age);
+						}
+						else if (model.NumType == "1")
+						{
+							dataList = dataList.Where(x => x.Persona.Age >= model.Age);
+						}
+					}
+					if (!string.IsNullOrEmpty(model.Type))
+					{
+						dataList = dataList.Where(x => x.Persona.Type == model.Type);
+					}
+				}
+				#endregion
 
 				return dataList.AsNoTracking();
 			}

@@ -24,7 +24,6 @@ namespace TESTMVCCORE.Controllers
 
 		public IActionResult Index()
 		{
-			var list = _personaService.Lookup<Persona>().ToList();
 			return View();
 		}
 
@@ -32,14 +31,24 @@ namespace TESTMVCCORE.Controllers
 		{
 			Model_List model = new Model_List();
 			model.PersonaList = _personaService.Query().ToList();
+			_personaService.GetListDDL(ref model);
 			return View(model);
 		}
+
+		[HttpPost]
+		public IActionResult List(Model_List model)
+		{
+            model.PersonaList = _personaService.Query(model.QueryParams).ToList();
+			_personaService.GetListDDL(ref model);
+            return View(model);
+		}
+
 
 		#region 新增
 		public IActionResult Add()
 		{
 			Model_Add model = new Model_Add();
-			_personaService.GetDDL(ref model);
+			_personaService.GetAddDDL(ref model);
 			return View(model);
 		}
 
@@ -69,7 +78,7 @@ namespace TESTMVCCORE.Controllers
 			{
 				return RedirectToAction("List");
 			}
-			_personaService.GetDDL(ref model);
+			_personaService.GetAddDDL(ref model);
 			return View(model);
 		}
 

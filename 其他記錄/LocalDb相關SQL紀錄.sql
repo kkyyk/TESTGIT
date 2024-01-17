@@ -34,3 +34,8 @@ INSERT INTO [dbo].[Type] ([Type], [TypeName]) VALUES ('S', N'輔助型');
 UPDATE [dbo].[Type] SET [TypeName] = N'進攻型' WHERE [Type] = 'A'
 UPDATE [dbo].[Type] SET [TypeName] = N'防守型' WHERE [Type] = 'D'
 UPDATE [dbo].[Type] SET [TypeName] = N'全能型' WHERE [Type] = 'P'
+
+--建立FK
+ALTER TABLE PersonaDetail
+ADD CONSTRAINT FK_PersonaDetail_Persona
+FOREIGN KEY (PersonaId) REFERENCES Persona(Id);
