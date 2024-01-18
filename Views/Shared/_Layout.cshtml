@@ -10,6 +10,8 @@
 
     <!-- Parsley -->
     <link href="~/lib/Parsley/v2.9.2/dist/parsley.css" rel="stylesheet" />
+    @await RenderSectionAsync("Css", required: false)
+
 </head>
 <body>
     <header>
