@@ -1,6 +1,5 @@
 ﻿@model TESTMVCCORE.Models.Home.Model_Add
 
-
 <script id="tmpl_PersonaDetail" type="text/x-jquery-tmpl">
 	<tr class="tmpl_PersonaDetail-container">
 		<td>
@@ -73,6 +72,7 @@
 	}
 
 </script>
+
 <div>
 	<div>
 		@Html.LabelFor(model => model.Persona.Name, "名稱")
@@ -80,7 +80,7 @@
 	</div>
 	<div>
 		@Html.LabelFor(model => model.Persona.Age, "年齡")
-		@Html.TextBoxFor(model => model.Persona.Age, new { type = "number", data_parsley_required = "", data_parsley_type = "digits",min="0" })
+		@Html.TextBoxFor(model => model.Persona.Age, new { type = "number", data_parsley_required = "", data_parsley_type = "digits", min = "0" })
 	</div>
 	<div>
 		@Html.LabelFor(model => model.Persona.Type, "類型")
