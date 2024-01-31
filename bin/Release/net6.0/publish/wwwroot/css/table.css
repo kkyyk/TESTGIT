@@ -1,0 +1,15 @@
+/* 替tablePersona加上表格樣式  */
+table {
+    border-collapse: collapse;
+}
+
+table th {
+    background-color: #eee;
+    text-align: center;
+}
+
+table th,
+table td {
+    border: 1px solid #999;
+    padding: 5px;
+}
